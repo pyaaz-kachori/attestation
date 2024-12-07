@@ -15,7 +15,7 @@ import {
 
   const rpc = "https://eth.merkle.io";
   const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
-  const schema = "bytes32 commitID,string username, bool verified";
+  const schema = "string link,string username,string review,string score";
   // Initialize the sdk with the address of the EAS Schema contract address
   const eas = new EAS(EASContractAddress);
   const publisher_url = "https://publisher.walrus-testnet.walrus.space"
@@ -23,7 +23,7 @@ import {
 const aggregator_url = "https://aggregator.walrus-testnet.walrus.space" 
   // Gets a default provider (in production use something else like infura/alchemy)
   const provider = ethers.getDefaultProvider("sepolia");
-const schemaUID = "0x2cfdd9dee69931092aeae8ffcb8d7e268a885ec2e2b35b3ddb8f8be2b24f576d"
+const schemaUID = "0xad36d2219bedd18eba6141f18be268a5225fcfeaf57c22b6c83ff08acab3aaa1"
 
   // Connects an ethers style provider/signingProvider to perform read/write functions.
   // MUST be a signer to do write operations!
@@ -56,9 +56,10 @@ const schemaUID = "0x2cfdd9dee69931092aeae8ffcb8d7e268a885ec2e2b35b3ddb8f8be2b24
   }
   const schemaEncoder = new SchemaEncoder(schema);
   const encodedData = schemaEncoder.encodeData([
-    { name: "commitID", value: "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef", type: "bytes32" },
-    { name: "username", value: "cheetahhikehde", type: "string" },
-    { name: "verified", value: "true", type: "bool" }
+    { name: "link", value: "https://github.com/mdgspace/domain-forge/pull/40", type: "string" },
+    { name: "username", value: "raj210809", type: "string" },
+    { name: "review", value: "Seems good !", type: "string" },
+    { name: "score", value: "75", type: "string" },
   ]);
 
 async function uploadBLOB(data){

@@ -169,7 +169,7 @@ const signer = new ethers.Wallet("a290bca74f3a742b5f87ddeeefe4c42eda9c0158acda2a
 
 schemaRegistry.connect(signer);
 
-const schema = "bytes32 commitID,string username, bool verified";
+const schema = "string link,string username,string review,string score";
 const resolverAddress = "0x0000000000000000000000000000000000000000"; // Sepolia 0.26
 const revocable = true;
 
@@ -190,37 +190,37 @@ console.log(uuid)
 
 
 
-const convertToNewFormat = (inputAttestation) => {
-  return {
-    sig: {
-      domain: {
-        name: inputAttestation.domain.name,
-        version: inputAttestation.domain.version,
-        chainId: parseInt(inputAttestation.domain.chainId, 10), // Convert string to integer
-        verifyingContract: inputAttestation.domain.verifyingContract,
-      },
-      primaryType: inputAttestation.primaryType,
-      types: {
-        Attest: inputAttestation.types.Attest,
-      },
-      signature: {
-        r: inputAttestation.signature.r,
-        s: inputAttestation.signature.s,
-        v: inputAttestation.signature.v,
-      },
-      uid: inputAttestation.uid,
-      message: {
-        version: 2, // Assigning version manually
-        schema: schemaUID, // Assign schema manually
-        recipient: "0xFD50b031E778fAb33DfD2Fc3Ca66a1EeF0652165", // Assign recipient manually
-        time: parseInt(inputAttestation.message.time, 10), // Convert time to integer
-        expirationTime: inputAttestation.message.expirationTime,
-        refUID: inputAttestation.message.refUID,
-        revocable: inputAttestation.message.revocable,
-        data: inputAttestation.message.data,
-        nonce: 0, // Add nonce field manually
-      },
-    },
-    signer: "0xeee68aECeB4A9e9f328a46c39F50d83fA0239cDF", // Add signer manually
-  };
-};
+// const convertToNewFormat = (inputAttestation) => {
+//   return {
+//     sig: {
+//       domain: {
+//         name: inputAttestation.domain.name,
+//         version: inputAttestation.domain.version,
+//         chainId: parseInt(inputAttestation.domain.chainId, 10), // Convert string to integer
+//         verifyingContract: inputAttestation.domain.verifyingContract,
+//       },
+//       primaryType: inputAttestation.primaryType,
+//       types: {
+//         Attest: inputAttestation.types.Attest,
+//       },
+//       signature: {
+//         r: inputAttestation.signature.r,
+//         s: inputAttestation.signature.s,
+//         v: inputAttestation.signature.v,
+//       },
+//       uid: inputAttestation.uid,
+//       message: {
+//         version: 2, // Assigning version manually
+//         schema: schemaUID, // Assign schema manually
+//         recipient: "0xFD50b031E778fAb33DfD2Fc3Ca66a1EeF0652165", // Assign recipient manually
+//         time: parseInt(inputAttestation.message.time, 10), // Convert time to integer
+//         expirationTime: inputAttestation.message.expirationTime,
+//         refUID: inputAttestation.message.refUID,
+//         revocable: inputAttestation.message.revocable,
+//         data: inputAttestation.message.data,
+//         nonce: 0, // Add nonce field manually
+//       },
+//     },
+//     signer: "0xeee68aECeB4A9e9f328a46c39F50d83fA0239cDF", // Add signer manually
+//   };
+// };
