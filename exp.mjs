@@ -30,7 +30,8 @@ const schemaUID = "0x2cfdd9dee69931092aeae8ffcb8d7e268a885ec2e2b35b3ddb8f8be2b24
   eas.connect(provider);
   const signer = new ethers.Wallet("a290bca74f3a742b5f87ddeeefe4c42eda9c0158acda2a3618b37382de1cd95d", rpc);
   const offchain = await eas.getOffchain();
-
+  console.log(offchain)
+  console.log("***********************************")
   async function createOffchainAttestationJSON(encodedData) {
     const NO_EXPIRATION = 0;
 
@@ -77,18 +78,20 @@ async function downloadBLOB(blob_id){
     return response.data
 }
 
-async function verifyAttestation(attestation,signer){
-    const EAS_CONFIG = {
-        address: attestation.sig.domain.verifyingContract,
-        version: attestation.sig.domain.version,
-        chainId: attestation.sig.domain.chainId,
-      };
-      const offchain = new Offchain(EAS_CONFIG, OFFCHAIN_ATTESTATION_VERSION);
-      const isValidAttestation = offchain.verifyOffchainAttestationSignature(
-        attestation.signer,
-        attestation.sig
-      );
-      return isValidAttestation
+async function verifyAttestation(attestation){
+  const EAS_CONFIG = {
+    address: attestation.sig.domain.verifyingContract,
+    version: attestation.sig.domain.version,
+    chainId: attestation.sig.domain.chainId,
+};
+console.log(OFFCHAIN_ATTESTATION_VERSION)
+const ofc = new Offchain(EAS_CONFIG, 2);
+console.log(offchain);
+const isValidAttestation = offchain.verifyOffchainAttestationSignature(
+    attestation.signer,
+    attestation.sig
+);
+return isValidAttestation;
 }
 
 function convertAttestationObject(inputAttestation, signer) {
@@ -162,18 +165,8 @@ const blob = await downloadBLOB(resp.newlyCreated.blobObject.blobId)
 console.log("Blob downloaded and saved.")
 fs.writeFileSync("attestation.json",JSON.stringify(blob))
 
-// const attestation =blob
+const attestation =blob
 
-// const EAS_CONFIG = {
-//     address: attestation.sig.domain.verifyingContract,
-//     version: attestation.sig.domain.version,
-//     chainId: attestation.sig.domain.chainId,
-// };
-// const ofc = new Offchain(EAS_CONFIG, OFFCHAIN_ATTESTATION_VERSION);
-// console.log(offchain);
-// const isValidAttestation = offchain.verifyOffchainAttestationSignature(
-//     attestation.signer,
-//     attestation.sig
-// );
-// console.log(isValidAttestation)
-// console.log(isValidAttestation)
+const isValid = await verifyAttestation(attestation)
+
+console.log(isValid)
